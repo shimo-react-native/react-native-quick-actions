@@ -12,6 +12,8 @@
 #import <React/RCTUtils.h>
 #import "RNQuickActionManager.h"
 
+static NSDictionary *shortcutItem = nil;
+
 NSString *const RCTShortcutItemClicked = @"ShortcutItemClicked";
 
 NSDictionary *RNQuickAction(UIApplicationShortcutItem *item) {
@@ -24,9 +26,6 @@ NSDictionary *RNQuickAction(UIApplicationShortcutItem *item) {
 }
 
 @implementation RNQuickActionManager
-{
-    NSDictionary *_shortcutItem;
-}
 
 RCT_EXPORT_MODULE();
 
@@ -125,7 +124,7 @@ RCT_EXPORT_MODULE();
 
 RCT_EXPORT_METHOD(getInitialAction:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 {
-    resolve(_shortcutItem);
+    resolve(shortcutItem);
 }
 
 RCT_EXPORT_METHOD(setShortcutItems:(NSArray *) shortcutItems)
@@ -146,22 +145,22 @@ RCT_EXPORT_METHOD(clearShortcutItems)
     [UIApplication sharedApplication].shortcutItems = nil;
 }
 
-+ (void)onQuickActionPress:(UIApplicationShortcutItem *) shortcutItem completionHandler:(void (^)(BOOL succeeded)) completionHandler
++ (void)onQuickActionPress:(UIApplicationShortcutItem *) item completionHandler:(void (^)(BOOL succeeded)) completionHandler
 {
-    RCTLogInfo(@"[RNQuickAction] Quick action shortcut item pressed: %@", [shortcutItem type]);
+    RCTLogInfo(@"[RNQuickAction] Quick action shortcut item pressed: %@", [item type]);
 
+    shortcutItem = RNQuickAction(item);
     [[NSNotificationCenter defaultCenter] postNotificationName:RCTShortcutItemClicked
                                                         object:self
-                                                      userInfo:RNQuickAction(shortcutItem)];
+                                                      userInfo:nil];
 
     completionHandler(YES);
 }
 
 - (void)handleQuickActionPress:(NSNotification *) notification
 {
-    _shortcutItem = notification.userInfo;
     [_bridge.eventDispatcher sendDeviceEventWithName:@"quickActionShortcut"
-                                                body:_shortcutItem];
+                                                body:shortcutItem];
 }
 
 @end
