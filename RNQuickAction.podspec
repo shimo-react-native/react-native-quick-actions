@@ -9,8 +9,8 @@ Pod::Spec.new do |s|
   s.summary      = "A react-native interface for Touch 3D home screen quick actions"
   s.license      = "MIT"
   s.author       = { "Jordan Byron" => "jordan.byron@gmail.com" }
-  s.platform     = :ios, "9.0"
-  s.source       = { :git => "https://github.com/jordanbyron/react-native-quick-actions.git", :tag => "#{s.version}" }
+  s.platform     = :ios, "8.0"
+  s.source       = { :git => "https://github.com/jordanbyron/react-native-quick-actions.git", :tag => s.version.to_s }
   s.source_files = 'RNQuickAction/RNQuickAction/*.{h,m}'
   s.preserve_paths = "**/*.js"
   s.dependency 'React'
