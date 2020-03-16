@@ -1,6 +1,6 @@
 {
-  "name": "react-native-quick-actions",
-  "version": "0.3.13",
+  "name": "@shimo/react-native-quick-actions",
+  "version": "0.3.13-shimo.1",
   "description": "A react-native interface for Touch 3D home screen quick actions",
   "repository": {
     "type": "git",
@@ -10,5 +10,8 @@
   "license": "MIT",
   "devDependencies": {
     "react-native": "^0.40"
+  },
+  "publishConfig": {
+    "registry": "http://registry.npm.shimo.run/"
   }
 }
